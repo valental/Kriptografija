@@ -1,0 +1,75 @@
+﻿<Window x:Class="KerckhoffsPrincipleHelper.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KerckhoffsPrincipleHelper.Windows"
+        xmlns:vm="clr-namespace:KerckhoffsPrincipleHelper.ViewModels"
+        xmlns:converters="clr-namespace:KerckhoffsPrincipleHelper.Converters"
+        mc:Ignorable="d"
+        Title="dz3 / zad2" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <converters:CodeToTextConverter x:Key="CodeToTextConverter"/>
+    </Window.Resources>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Coded Text 1 -->
+        <TextBlock Text="Coded Text 1:" Grid.Row="0" Grid.Column="0"/>
+        <TextBox Text="{Binding CodedText1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
+
+        <!-- Coded Text 2 -->
+        <TextBlock Text="Coded Text 2:" Grid.Row="1" Grid.Column="0"/>
+        <TextBox Text="{Binding CodedText2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
+
+        <!-- Open Text 1 -->
+        <TextBlock Text="Open Text 1:" Grid.Row="2" Grid.Column="0"/>
+        <TextBox Text="{Binding OpenText1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"
+                 Visibility="{Binding IsFirstEditable, Converter={StaticResource BoolToVis}}"/>
+        <TextBox IsReadOnly="True" Grid.Row="2" Grid.Column="1"
+                 Visibility="{Binding IsSecondEditable, Converter={StaticResource BoolToVis}}">
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource CodeToTextConverter}">
+                    <Binding Path="CodedText2" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"/>
+                    <Binding Path="CodedText1" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"/>
+                    <Binding Path="OpenText2" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+
+        <!-- Open Text 2 -->
+        <TextBlock Text="Open Text 2:" Grid.Row="3" Grid.Column="0"/>
+        <TextBox Text="{Binding OpenText2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1"
+                 Visibility="{Binding IsSecondEditable, Converter={StaticResource BoolToVis}}"/>
+        
+        <TextBox IsReadOnly="True" Grid.Row="3" Grid.Column="1"
+                 Visibility="{Binding IsFirstEditable, Converter={StaticResource BoolToVis}}">
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource CodeToTextConverter}">
+                    <Binding Path="CodedText1" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"/>
+                    <Binding Path="CodedText2" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"/>
+                    <Binding Path="OpenText1" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"/>
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>
+
+        <!-- Radio Buttons -->
+        <TextBlock Text="Edit:" Grid.Row="1" Grid.Column="2"/>
+        <RadioButton IsChecked="{Binding IsFirstEditable, Mode=TwoWay}" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <RadioButton IsChecked="{Binding IsSecondEditable, Mode=TwoWay}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    </Grid>
+</Window>
