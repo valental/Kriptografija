@@ -7,7 +7,8 @@
         xmlns:vm="clr-namespace:KerckhoffsPrincipleHelper.ViewModels"
         xmlns:converters="clr-namespace:KerckhoffsPrincipleHelper.Converters"
         mc:Ignorable="d"
-        Title="dz3 / zad2" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+        Title="dz3 / zad2" ResizeMode="CanMinimize"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <vm:MainWindowViewModel/>
